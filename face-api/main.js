@@ -61,9 +61,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // 📂 Cargar imágenes etiquetadas
 async function loadLabeledImages() {
-  const labels = ['Nico', 'Luke']; // carpetas con imágenes
+  const labels = ['Luke', 'Nico']; // carpetas con imágenes
   // Ajusta la cantidad de imágenes por persona
-  const imagesPerLabel = { Mariano: 4, Ana: 3 };
+  const imagesPerLabel = { Luke: 8, Nico: 7 };
   return Promise.all(
     labels.map(async label => {
       const descriptions = [];
