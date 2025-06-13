@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const video = document.getElementById('video');
   const canvas = document.getElementById('overlay');
+  const fullNames = {
+    Luke: "Luke Skywalker",
+    Nico: "Nicolás Carro"
+  };
+
+
 
   if (typeof faceapi === 'undefined') {
     console.error('❌ faceapi no está definido');
@@ -41,11 +47,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       const resizedDetections = faceapi.resizeResults(detections, displaySize);
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       resizedDetections.forEach(detection => {
         const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
         const box = detection.detection.box;
-        const drawBox = new faceapi.draw.DrawBox(box, { label: bestMatch.toString() });
+        const label = bestMatch.label;
+
+        // Draw box with label
+        const drawBox = new faceapi.draw.DrawBox(box, { label });
         drawBox.draw(canvas);
+
+        const recognizedNamesDiv = document.getElementById('recognizedNames');
+        if (label !== "unknown") {
+          const fullName = fullNames[label] || label; // fallback if not in fullNames
+          recognizedNamesDiv.textContent = `Reconocido: ${fullName}`;
+        } else {
+          recognizedNamesDiv.textContent = '';
+        }
       });
     }, 100);
   }
